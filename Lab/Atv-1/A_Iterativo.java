@@ -1,32 +1,35 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 public class A_Iterativo {
-    public void uppercase(String str) {
+    public static boolean isUppercase(char c) {
+        return (c >= 'A' && c <= 'Z');
+    }
+
+    public static boolean isEnd(String str) {
+        return str.equals("FIM");
+    }
+
+    public static int countUppercase(String str) {
         int count = 0;
         for (int i = 0; i < str.length(); i++) {
-            if (str == "FIM") {
-                return;
-            }
-            if (Character.isUpperCase(str.charAt(i))) {
+            if (isUppercase(str.charAt(i))) {
                 count++;
-            } else if (str.charAt(i) == '\n') {
-                System.out.println(count);
-                count = 0;
             }
         }
+        return count;
     }
 
-    public static void main(String[] args) throws IOException {
-        A_Iterativo app = new A_Iterativo();
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        StringBuilder sb = new StringBuilder();
-        while (scanner.hasNextLine()) {
-            sb.append(scanner.nextLine()).append("\n");
-        }
-        String input = sb.toString();
-        app.uppercase(input);
-        scanner.close();
-    }
+        String str;
+        int count;
 
+        do {
+            str = scanner.nextLine();
+            if (!isEnd(str)) {
+                count = countUppercase(str);
+                System.out.println(count);
+            }
+        } while (!isEnd(str));
+    }
 }

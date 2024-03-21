@@ -1,38 +1,44 @@
 #include <stdio.h>
 #include <string.h>
 
-void uppercase(const char *str)
+int isUppercase(char c)
+{
+      return (c >= 'A' && c <= 'Z');
+}
+
+int isEnd(const char *str)
+{
+      return strcmp(str, "FIM") == 0;
+}
+
+int countUppercase(const char *str)
 {
       int count = 0;
       for (int i = 0; str[i] != '\0'; i++)
       {
-            if (strncmp(&str[i], "FIM", 3) == 0)
-            {
-                  return;
-            }
-            if (str[i] >= 'A' && str[i] <= 'Z')
+            if (isUppercase(str[i]))
             {
                   count++;
             }
-            else if (str[i] == '\n')
-            {
-                  printf("%d\n", count);
-                  count = 0;
-            }
       }
+      return count;
 }
 
 int main()
 {
-      char linha[1000];
-      char input[10000] = "";
+      char str[100];
+      int count;
 
-      while (fgets(linha, sizeof(linha), stdin) != NULL)
+      do
       {
-            strcat(input, linha);
-      }
-
-      uppercase(input);
+            fgets(str, sizeof(str), stdin);
+            strtok(str, "\n");
+            if (!isEnd(str))
+            {
+                  count = countUppercase(str);
+                  printf("%d\n", count);
+            }
+      } while (!isEnd(str));
 
       return 0;
 }

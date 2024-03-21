@@ -1,42 +1,38 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 public class A_Recursivo {
-    public void uppercase(String str) {
-        uppercaseHelper(str, 0, 0);
+    public static boolean isUppercase(char c) {
+        return (c >= 'A' && c <= 'Z');
     }
 
-    private void uppercaseHelper(String str, int i, int count) {
-        if (i == str.length()) {
-            return;
-        }
-
-        char currentChar = str.charAt(i);
-
-        if (Character.isUpperCase(currentChar)) {
-            count++;
-        } else if (currentChar == '\n') {
-            System.out.println(count);
-            count = 0;
-        }
-
-        if (str.equals("FIM")) {
-            return;
-        }
-
-        uppercaseHelper(str, i + 1, count);
+    public static boolean isEnd(String str) {
+        return str.equals("FIM");
     }
 
-    public static void main(String[] args) throws IOException {
-        A_Recursivo app = new A_Recursivo();
+    public static int countUppercase(String str, int position) {
+        if (position >= str.length()) {
+            return 0;
+        }
+        if (isUppercase(str.charAt(position))) {
+            return 1 + countUppercase(str, position + 1);
+        }
+        return countUppercase(str, position + 1);
+    }
+
+    public static int countUppercase(String str) {
+        return countUppercase(str, 0);
+    }
+
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        StringBuilder sb = new StringBuilder();
-        while (scanner.hasNextLine()) {
-            sb.append(scanner.nextLine()).append("\n");
-        }
-        String input = sb.toString();
-        app.uppercase(input);
-        scanner.close();
-    }
+        String str;
 
+        do {
+            str = scanner.nextLine();
+            if (!isEnd(str)) {
+                int count = countUppercase(str);
+                System.out.println(count);
+            }
+        } while (!isEnd(str));
+    }
 }

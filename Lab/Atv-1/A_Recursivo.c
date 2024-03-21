@@ -1,49 +1,47 @@
 #include <stdio.h>
 #include <string.h>
 
-void uppercaseHelper(const char *str, int i, int count)
+int isUppercase(char c)
 {
-      if (str[i] == '\0')
-      {
-            return;
-      }
-
-      char currentChar = str[i];
-
-      if (currentChar == '\n')
-      {
-            printf("%d\n", count);
-            count = 0;
-      }
-      else if (currentChar >= 'A' && currentChar <= 'Z')
-      {
-            count++;
-      }
-
-      if (strncmp(&str[i], "FIM", 3) == 0)
-      {
-            return;
-      }
-
-      uppercaseHelper(str, i + 1, count);
+      return (c >= 'A' && c <= 'Z');
 }
 
-void uppercase(const char *str)
+int isEnd(const char *str)
 {
-      uppercaseHelper(str, 0, 0);
+      return strcmp(str, "FIM") == 0;
+}
+
+int countUppercaseRecursive(const char *str, int index)
+{
+      if (str[index] == '\0')
+      {
+            return 0;
+      }
+
+      int count = 0;
+      if (isUppercase(str[index]))
+      {
+            count = 1;
+      }
+
+      return count + countUppercaseRecursive(str, index + 1);
 }
 
 int main()
 {
-      char linha[1000];
-      char input[10000] = "";
+      char str[100];
+      int count;
 
-      while (fgets(linha, sizeof(linha), stdin) != NULL)
+      do
       {
-            strcat(input, linha);
-      }
-
-      uppercase(input);
+            fgets(str, sizeof(str), stdin);
+            strtok(str, "\n");
+            if (!isEnd(str))
+            {
+                  count = countUppercaseRecursive(str, 0);
+                  printf("%d\n", count);
+            }
+      } while (!isEnd(str));
 
       return 0;
 }
